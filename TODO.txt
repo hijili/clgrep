@@ -1,2 +1,4 @@
 - outputの方法を追加
+	totalize_time
+- 出力の正規化
 - テスト追加

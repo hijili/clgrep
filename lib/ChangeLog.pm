@@ -130,18 +130,35 @@ sub _parse() {
 	}
 }
 
+sub dump_report() {
+	my $self = shift;
+	foreach my $date (reverse sort keys %{$self->{cl}}) {
+		print $date;
+		my @elms = @{$self->{cl}->{$date}};
+		foreach my $e (@elms) {
+			my $head = $e->dump_header;
+		}
+	}
+}
+
+sub dump_totalize_time() {
+	# TBD:
+}
+
 sub dump() {
 	my $self = shift;
-
+	my $with_date = shift;
 	foreach my $date (reverse sort keys %{$self->{cl}}) {
-		#print $date. $self->{line_feed_code};
-		print $date;
-
+		if (defined $with_date) { print $date; }
 		my @elms = @{$self->{cl}->{$date}};
 		foreach my $e (@elms) {
 			$e->dump;
 		}
 	}
+}
+sub dump_with_date() {
+	my $self = shift;
+	$self->dump(1);
 }
 
 1;

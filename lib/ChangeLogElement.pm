@@ -12,8 +12,8 @@ sub new ($) {
 	my $class = shift;
 	my $self = {
 		"tag"     => "",
-		"header"  => "",
-		"content" => "",
+		"header"  => "", # includes tag
+		"content" => "", # includes header
 		"time"    => 0, # min
 	};
 	bless $self, $class;
@@ -70,9 +70,15 @@ sub _parse_time ($) {
 
 sub dump {
 	my $self = shift;
-
 	#print "[INFO] tag:".$self->{tag}." time:".$self->{time}."\n";
 	print $self->{content};
+}
+
+sub dump_header {
+	my $self = shift;
+	my $head = $self->{header};
+	$head =~ s/([\d\.]+)([hm]{1})([\s\t\n\r]*)$/$self->{time}m$3/;
+	print $head;
 }
 
 1;

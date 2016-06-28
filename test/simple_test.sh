@@ -1,13 +1,7 @@
 #!/bin/bash
 [ "$DEBUG" = "1" ] && set -o xtrace
 
-CLGREP=./clgrep.pl
-TESTFILE=test/clmemo_sample.txt
-TMPFILE=tmp
-# move to parent dir
-TESTDIR=$(cd $(dirname $0); pwd)
-cd $TESTDIR/..
-
+# simple test method
 assert() {
 	local args=
 	for arg in "$@"; do
@@ -26,8 +20,19 @@ assert() {
 	fi
 }
 echo_result() {
-    echo result: $ok/$test succeeded
+	echo result: $ok/$test succeeded
 }
+
+
+### main
+CLGREP=./clgrep.pl
+TESTFILE=test/clmemo_sample.txt
+TMPFILE=tmp
+
+# move to parent dir
+TESTDIR=$(cd $(dirname $0); pwd)
+cd $TESTDIR/..
+
 
 test_all_print() {
 	$CLGREP . $TESTFILE > $TMPFILE
@@ -42,7 +47,8 @@ case "$1" in
 			echo "only test: $1"
 			eval $1
 		else
-			for test_func in $(declare -f | grep '^test_'); do
+			#declare -f
+			for test_func in $(declare -f | awk '/^test_/ {print $1}'); do
 				$test_func
 			done
 		fi

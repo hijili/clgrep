@@ -11,19 +11,23 @@ my $DEBUG = 0;
 
 sub usage {
 	print "Usage: $0 [OPTIONS] PATTERN [FILE]\n";
+	print " parse options\n";
 	print "  -i, --ignore-case: ignore case\n";
 	print "  -t, --tag-only   : grep target is tag only \n";
 	print "  -s, --start-date : start date (YYYYMM[DD])\n";
 	print "  -e, --end-date   : end   date (YYYYMM[DD])\n";
-
+	print "\n";
+	print " output options\n";
 	print "  -w, --with-date  : output with date\n";
 	print "  -r, --report     : output report style\n";
+	print "  --totalize       : output totalized time summary for each tag\n";
 	print "  --csv            : output csv style\n";
-	print "  -c, --count_time : output count time summary for each tag\n";
+	print "\n";
+	print "  -h, --help       : print this usage\n";
 	print "\n";
 }
 
-my ($ignore_case, $with_date, $tag_only, $report_style, $count_time, $csv_style)
+my ($ignore_case, $with_date, $tag_only, $report_style, $totalize_time, $csv_style, $print_help)
 	= (0, 0, 0, 0, 0, 0);
 my ($start_date, $end_date) = ("19000000", "99999999");
 GetOptions(
@@ -34,8 +38,10 @@ GetOptions(
 		   "e|end-date=s"    => \$end_date,
 
 		   "r|report"      => \$report_style,
-		   "c|count time"  => \$count_time,
+		   "totalize|total"=> \$totalize_time,
 		   "csv"           => \$csv_style,
+
+		   "h|help"        => \$print_help,
 		  );
 # accept only "2014" or "201501" and so on...
 if (8-length($start_date) > 0) { $start_date .= "0"x (8-length($start_date)); }
@@ -44,6 +50,7 @@ if (8-length($end_date) > 0)   { $end_date .= "9"x (8-length($end_date)); }
 my $pattern = shift @ARGV;
 my $file = shift @ARGV;
 
+if ($print_help) { &usage; exit 0; }
 if (!defined $pattern) { &usage; exit 1; }
 
 if (defined $file && !-f $file) {
@@ -62,8 +69,19 @@ my $cl = new ChangeLog($fh, {
 	grep_tag_only => $tag_only,
 	start_date    => $start_date,
 	end_date      => $end_date,
-   });
+});
 
-$cl->dump;
+
+if ($report_style) {
+	$cl->dump_report;
+} elsif ($totalize_time) {
+	$cl->dump_totalize_time;
+} elsif ($csv_style) {
+	$cl->dump_csv;
+} elsif ($with_date) {
+	$cl->dump_with_date;
+} else {
+	$cl->dump;
+}
 
 exit 0;
