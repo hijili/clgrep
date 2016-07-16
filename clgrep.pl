@@ -2,7 +2,7 @@
 # -*- coding:utf-8 mode:cperl -*-
 use strict;
 use warnings;
-use lib qw(./lib /usr/local/);
+use lib qw(./lib);
 
 use Getopt::Long qw(:config posix_default no_ignore_case gnu_compat);
 use ChangeLog;

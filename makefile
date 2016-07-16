@@ -9,15 +9,16 @@ install: uninstall
 	mkdir -p $(INSTALLDIR)
 	cp -r lib $(INSTALLDIR)
 	install -m 755 clgrep.pl $(INSTALLDIR)/
+	sed -i -e 's|^use lib .*|use lib qw($(INSTALLDIR)\/lib);|' $(INSTALLDIR)/clgrep.pl
 	ln -s $(INSTALLDIR)/clgrep.pl $(BIN)
 
 uninstall:
-	@rm -rf $(INSTALLDIR)
-	@[ -s $(BIN) ] && rm -f $(BIN)
+	if [ -L $(BIN) ]; then unlink $(BIN) ; fi
+	rm -rf $(INSTALLDIR)
 
 test:
 	(cd test; ./simple_test.sh)
 
 clean:
-	@rm -f *~
-	@rm -f \#*\#
+	find -type f -name *~ | xargs rm -f
+	find -type f -name \#*\# | xargs rm -f
