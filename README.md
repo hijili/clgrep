@@ -1,5 +1,7 @@
 # clgrep
 grep command for changelog memo
+  
+(but ignore original grep options...)
 
 ## Overview
 
@@ -30,7 +32,7 @@ grep part including "world"
     
                 Good night world 15m
 
-output report style, ant then totalize time at end of line
+output report style, and then totalize time at end of line
 
     $ clgrep -r -i world clmemo01.txt 
     2010-01-01 Wed. @hijili2 <hoge_fuga@noexist.com>
