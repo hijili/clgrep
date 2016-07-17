@@ -77,7 +77,13 @@ sub dump {
 sub dump_header {
 	my $self = shift;
 	my $head = $self->{header};
-	$head =~ s/([\d\.]+)([hm]{1})([\s\t\n\r]*)$/$self->{time}m$3/;
+	if ($head =~ /([\d\.]+)([hm]{1})([\s\t\n\r]*)$/) {
+		$head =~ s/([\d\.]+)([hm]{1})([\s\t\n\r]*)$/$self->{time}m$3/;
+	} else {
+		if ($self->{time} != 0) {
+			$head =~ s/(.)([\s\t\n\r]*)$/$1 $self->{time}m$2/;
+		}
+	}
 	print $head;
 }
 

@@ -17,7 +17,7 @@ uninstall:
 	rm -rf $(INSTALLDIR)
 
 test:
-	(cd test; ./simple_test.sh)
+	(cd test; perl TestChangeLog.t)
 
 clean:
 	find -type f -name *~ | xargs rm -f

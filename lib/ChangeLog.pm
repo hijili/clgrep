@@ -15,8 +15,8 @@ sub new ($) {
 		"grep_pattern"  => "",
 		"ignore_case"   => 0,
 		"grep_tag_only" => 0,
-		"start_date"    => "190000000", # YYYYMMDD
-		"end_date"      => "999999999",
+		"start_date"    => "19000000", # YYYYMMDD
+		"end_date"      => "99999999",
 	};
 	bless $self, $class;
 
@@ -49,6 +49,7 @@ sub set_opts($) {
 sub _parse() {
 	my $self = shift;
 	my $fh = $self->{fh};
+	seek($fh, 0, 0);
 
 	if (!defined $self->{grep_pattern} || $self->{grep_pattern} eq "") {
 		die "pattern of grep is not specified";
@@ -132,7 +133,7 @@ sub _parse() {
 
 sub dump_report() {
 	my $self = shift;
-	foreach my $date (reverse sort keys %{$self->{cl}}) {
+	foreach my $date (sort keys %{$self->{cl}}) {
 		print $date;
 		my @elms = @{$self->{cl}->{$date}};
 		foreach my $e (@elms) {
