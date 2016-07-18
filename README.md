@@ -55,8 +55,8 @@ Perl > 5.8
       -e, --end-date   : end   date (YYYYMM[DD])
     
      output options
-      -w, --with-date  : output with date
-      -r, --report     : output report style
+      -w, --with-date   : output with date
+      -r, --report      : output report style
       --total[ize],--csv: output totalized time summary for each tag
     
       -h, --help       : print this usage
@@ -64,7 +64,3 @@ Perl > 5.8
 ## Install
 
 `$ make install`
-
-## Author
-
-[hijili](https://github.com/hijili)
