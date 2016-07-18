@@ -57,8 +57,7 @@ Perl > 5.8
      output options
       -w, --with-date  : output with date
       -r, --report     : output report style
-      --totalize       : output totalized time summary for each tag (TBD)
-      --csv            : output csv style (TBD)
+      --total[ize],--csv: output totalized time summary for each tag
     
       -h, --help       : print this usage
 
