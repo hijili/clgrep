@@ -18,17 +18,16 @@ sub usage {
 	print "  -e, --end-date   : end   date (YYYYMM[DD])\n";
 	print "\n";
 	print " output options\n";
-	print "  -w, --with-date  : output with date\n";
-	print "  -r, --report     : output report style\n";
-	print "  --totalize       : output totalized time summary for each tag\n";
-	print "  --csv            : output csv style\n";
+	print "  -w, --with-date   : output with date\n";
+	print "  -r, --report      : output report style\n";
+	print "  --total[ize],--csv: output totalized time summary for each tag\n";
 	print "\n";
 	print "  -h, --help       : print this usage\n";
 	print "\n";
 }
 
-my ($ignore_case, $with_date, $tag_only, $report_style, $totalize_time, $csv_style, $print_help)
-	= (0, 0, 0, 0, 0, 0);
+my ($ignore_case, $with_date, $tag_only, $report_style, $totalize_time, $print_help)
+	= (0, 0, 0, 0, 0);
 my ($start_date, $end_date) = ("19000000", "99999999");
 GetOptions(
 		   "i|ignore-case" => \$ignore_case,
@@ -37,9 +36,8 @@ GetOptions(
 		   "s|start-date=s"  => \$start_date,
 		   "e|end-date=s"    => \$end_date,
 
-		   "r|report"      => \$report_style,
-		   "totalize|total"=> \$totalize_time,
-		   "csv"           => \$csv_style,
+		   "r|report"          => \$report_style,
+		   "totalize|total|csv"=> \$totalize_time,
 
 		   "h|help"        => \$print_help,
 		  );
@@ -76,8 +74,6 @@ if ($report_style) {
 	$cl->dump_report;
 } elsif ($totalize_time) {
 	$cl->dump_totalize_time;
-} elsif ($csv_style) {
-	$cl->dump_csv;
 } elsif ($with_date) {
 	$cl->dump_with_date;
 } else {

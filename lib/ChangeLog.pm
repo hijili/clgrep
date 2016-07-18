@@ -99,7 +99,7 @@ sub _parse() {
 			}
 			# ignore line which is out of period
 			my $yyyymmdd = $1.$2.$3;
-			if ($yyyymmdd < $self->{start_date} || $yyyymmdd >= $self->{end_date}) {
+			if ($yyyymmdd < $self->{start_date} || $yyyymmdd > $self->{end_date}) {
 				$date = "";
 				next;
 			}
@@ -143,7 +143,26 @@ sub dump_report() {
 }
 
 sub dump_totalize_time() {
-	# TBD:
+	my $self = shift;
+	my $total_time = {};
+	my $total = 0;
+	foreach my $date (keys %{$self->{cl}}) {
+		foreach my $e (@{$self->{cl}->{$date}}) {
+			if (!defined $total_time->{$e->{tag}}) {
+				$total_time->{$e->{tag}} = $e->{time};
+			} else {
+				$total_time->{$e->{tag}} += $e->{time};
+			}
+			$total += $e->{time};
+		}
+	}
+
+	print "# tag,time(minute)\n";
+	print "# TOTAL_TIME,".$total."\n";
+	foreach my $tag (sort keys %{$total_time}) {
+		#if ($total_time->{$tag} == 0) { next; }
+		print $tag.",".$total_time->{$tag}."\n";
+	}
 }
 
 sub dump() {

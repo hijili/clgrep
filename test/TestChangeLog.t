@@ -265,5 +265,44 @@ use ChangeLog;
 	close($fh);
 }
 
+{ # test 07 grep: specify start date
+	my $test_file = "sample/clmemo01.txt";
+
+	my $fh; open($fh, "<", $test_file) or die "can not open file:$!";
+	my $cl = new ChangeLog($fh, {
+		grep_pattern => ".",
+		start_date => "20100101",
+	   });
+
+	# dump_with_date: grep all with date
+	stdout_like { $cl->dump_with_date(); } qr/2010\-01\-01/, "dump_with_date: grep test01 with ignore_case";
+	stdout_like { $cl->dump_with_date(); } qr/Test01\-01:/, "dump_with_date: grep test01 with ignore_case";
+	stdout_like { $cl->dump_with_date(); } qr/Hello World/, "dump_with_date: grep test01 with ignore_case";
+	stdout_like { $cl->dump_with_date(); } qr/Test01\-02:/, "dump_with_date: grep test01 with ignore_case";
+	stdout_like { $cl->dump_with_date(); } qr/Good evening world/, "dump_with_date: grep test01 with ignore_case";
+	stdout_like { $cl->dump_with_date(); } qr/Good night world/, "dump_with_date: grep test01 with ignore_case";
+	stdout_unlike { $cl->dump_with_date(); } qr/2009\-12\-31/, "dump_with_date: grep test01 with ignore_case";
+	stdout_unlike { $cl->dump_with_date(); } qr/Test02\-01:/, "dump_with_date: grep test01 with ignore_case";
+}
+
+{ # test 08 grep: specify end date
+	my $test_file = "sample/clmemo01.txt";
+
+	my $fh; open($fh, "<", $test_file) or die "can not open file:$!";
+	my $cl = new ChangeLog($fh, {
+		grep_pattern => ".",
+		end_date => "20091231",
+	   });
+
+	# dump_with_date: grep all with date
+	stdout_unlike { $cl->dump_with_date(); } qr/2010\-01\-01/, "dump_with_date: grep test01 with ignore_case";
+	stdout_unlike { $cl->dump_with_date(); } qr/Test01\-01:/, "dump_with_date: grep test01 with ignore_case";
+	stdout_unlike { $cl->dump_with_date(); } qr/Hello World/, "dump_with_date: grep test01 with ignore_case";
+	stdout_unlike { $cl->dump_with_date(); } qr/Test01\-02:/, "dump_with_date: grep test01 with ignore_case";
+	stdout_unlike { $cl->dump_with_date(); } qr/Good evening world/, "dump_with_date: grep test01 with ignore_case";
+	stdout_unlike { $cl->dump_with_date(); } qr/Good night world/, "dump_with_date: grep test01 with ignore_case";
+	stdout_like { $cl->dump_with_date(); } qr/2009\-12\-31/, "dump_with_date: grep test01 with ignore_case";
+	stdout_like { $cl->dump_with_date(); } qr/Test02\-01:/, "dump_with_date: grep test01 with ignore_case";
+}
 
 done_testing();
