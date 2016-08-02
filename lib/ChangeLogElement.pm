@@ -36,7 +36,7 @@ sub _parse_tag ($) {
 		$self->{tag}     = $1;
 		$self->{content} = $str;
 	} else {
-		die "unexpected header!: $str";
+		# ignore unexpected header
 	}
 
 	$self->_parse_time($str);
