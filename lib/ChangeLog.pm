@@ -40,7 +40,7 @@ sub set_opts($) {
 		die "Input hash ref! ex: set_opts({start_date => 20160101, end_date => 20160330})";
 	}
 
-	foreach my $key (keys $opts) {
+	foreach my $key (keys %{$opts}) {
 		if (! defined $self->{$key}) { die "unsupported option: $key"; }
 		$self->{$key} = $opts->{$key};
 	}
